@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "code-review-graph": {
+      "command": "/Users/harshjha/.local/bin/code-review-graph",
+      "args": [
+        "serve"
+      ],
+      "cwd": "/Users/harshjha/Downloads/Meow Meow",
+      "type": "stdio"
+    }
+  }
+}

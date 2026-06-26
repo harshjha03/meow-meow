@@ -1,0 +1,11 @@
+# Keep the code graph focused on app source — skip deps, build output, and secrets.
+node_modules/**
+dist/**
+dev-dist/**
+.code-review-graph/**
+.claude/**
+
+# never index credentials
+client_secret_*.json
+.env
+.env.*
