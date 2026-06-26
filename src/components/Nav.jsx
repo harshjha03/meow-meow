@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { HomeIcon, PencilIcon, ChartIcon, CalendarIcon, UserIcon, PlusIcon, MeowLogo, FlameGlyph } from './icons'
+import { HomeIcon, PencilIcon, ChartIcon, CalendarIcon, UserIcon, PlusIcon, FlameGlyph } from './icons'
 import { useSessions } from '../lib/storage'
 import { computeStreak } from '../lib/streak'
 import { useAuth } from '../context/AuthContext'
@@ -24,8 +24,8 @@ export default function Nav() {
         style={{ boxShadow: '6px 0 28px -18px rgba(58,46,28,.30)' }}
       >
         <div className="flex items-center gap-2.5 px-2 pb-6">
-          <MeowLogo width={28} height={26} />
-          <span className="text-[18px] font-bold tracking-[-.4px] text-ink">Meow Meow</span>
+          <img src="/kitten.png" alt="" className="h-9 w-auto" />
+          <span className="text-[18px] font-bold tracking-[-.4px] text-ink">meow meow</span>
         </div>
         <nav className="flex flex-col gap-1">
           {sideItems.map(({ to, label, Icon, end }) => (

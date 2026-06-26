@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react'
 import { Routes, Route, useLocation, Link } from 'react-router-dom'
 import Nav from './components/Nav'
-import { MeowLogo, FlameGlyph } from './components/icons'
+import { FlameGlyph } from './components/icons'
 import { useSessions, useProfile } from './lib/storage'
 import { computeStreak } from './lib/streak'
 import { useAuth } from './context/AuthContext'
@@ -46,8 +46,8 @@ function Header() {
       {/* Mobile header */}
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-bg px-[18px] py-3 safe-t md:hidden">
         <div className="flex items-center gap-2.5">
-          <MeowLogo width={24} height={22} />
-          <span className="text-[17px] font-bold tracking-[-.4px] text-ink">Meow Meow</span>
+          <img src="/kitten.png" alt="" className="h-7 w-auto" />
+          <span className="text-[17px] font-bold tracking-[-.4px] text-ink">meow meow</span>
         </div>
         <StreakChip count={streak.count} />
       </header>
@@ -55,7 +55,7 @@ function Header() {
       {/* Desktop header */}
       <header className="sticky top-0 z-20 hidden items-center justify-between border-b border-line bg-card px-[30px] py-[18px] md:flex" style={{ boxShadow: '0 4px 16px -12px rgba(58,46,28,.22)' }}>
         <div>
-          <div className="text-[21px] font-bold tracking-[-.4px] text-ink">{TITLES[pathname] || 'Meow Meow'}</div>
+          <div className="text-[21px] font-bold tracking-[-.4px] text-ink">{TITLES[pathname] || 'meow meow'}</div>
           <div className="mt-px text-[13px] text-muted2">{dateText}</div>
         </div>
         <div className="flex items-center gap-3">
