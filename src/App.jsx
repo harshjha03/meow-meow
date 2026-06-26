@@ -11,6 +11,7 @@ const Log = lazy(() => import('./pages/Log'))
 const Progress = lazy(() => import('./pages/Progress'))
 const Planner = lazy(() => import('./pages/Planner'))
 const Profile = lazy(() => import('./pages/Profile'))
+const DemoBar = import.meta.env.DEV ? lazy(() => import('./components/DemoBar')) : null
 
 const TITLES = { '/': 'Dashboard', '/log': 'Log a session', '/progress': 'Progress', '/planner': 'Planner', '/profile': 'Profile' }
 
@@ -91,6 +92,11 @@ export default function App() {
           </Routes>
         </Suspense>
       </main>
+      {DemoBar && (
+        <Suspense fallback={null}>
+          <DemoBar />
+        </Suspense>
+      )}
     </div>
   )
 }
