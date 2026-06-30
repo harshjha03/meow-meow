@@ -34,7 +34,10 @@ export default function Carousel3D({ slides }) {
       // (z-index is ignored under preserve-3d), then size it for that magnification.
       const boost = narrow ? 70 : 0
       const frontScale = PERSP / (PERSP - (BASE_R + boost))
-      const cardW = narrow ? Math.round(w / frontScale) : BASE_W
+      // Inset the front card on mobile so neighbour cards peek on both sides
+      // → the carousel reads as swipeable. (1 = full content width, no peek.)
+      const PEEK = 0.92
+      const cardW = narrow ? Math.round((w * PEEK) / frontScale) : BASE_W
       const cardH = narrow ? Math.round(BASE_H * 0.9) : BASE_H // ~10% shorter on mobile
       const stageH = narrow ? Math.round(cardH * frontScale) + 14 : BASE_H + 40
       setDim({ cardW, cardH, stageH, R: BASE_R, boost })
@@ -170,18 +173,18 @@ export default function Carousel3D({ slides }) {
           ))}
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: -2 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 7, marginTop: 4 }}>
         {slides.map((_, i) => (
           <div
             key={i}
             onClick={() => go(i)}
             style={{
-              width: i === active ? 22 : 7,
-              height: 7,
+              width: i === active ? 26 : 8,
+              height: 8,
               borderRadius: 99,
               cursor: 'pointer',
               transition: 'width .3s, background .3s',
-              background: i === active ? 'var(--accent)' : 'var(--track)',
+              background: i === active ? 'var(--accent)' : 'rgba(108,77,246,.25)',
             }}
           />
         ))}

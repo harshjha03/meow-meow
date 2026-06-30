@@ -1,5 +1,6 @@
-// DEV-only demo helpers: seed realistic dummy data and preview the signed-in
-// look without real Google OAuth. None of this runs in a production build.
+// Demo helpers: seed a realistic sample dataset + reset (available in the
+// Profile screen, incl. production), plus a DEV-only "preview signed-in" toggle
+// (fakes auth; gated to dev in AuthContext and the Profile data section).
 import { importAll, clearAll } from './storage'
 
 const pad = (n) => String(n).padStart(2, '0')

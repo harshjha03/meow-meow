@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useProfile, setProfile } from '../lib/storage'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
+import { loadDemoData, resetAll, isDemoLoggedIn, setDemoLoggedIn } from '../lib/demo'
 import { PencilIcon, CalendarIcon } from '../components/icons'
 
 export default function Profile() {
@@ -10,6 +11,9 @@ export default function Profile() {
   const toast = useToast()
   const [editing, setEditing] = useState(false)
   const [nameInput, setNameInput] = useState('')
+  const [confirming, setConfirming] = useState(null)
+  const [preview, setPreview] = useState(isDemoLoggedIn())
+  const timer = useRef()
 
   const loggedIn = !!user
   const displayName = profile.name || 'Scholar'
@@ -34,6 +38,32 @@ export default function Profile() {
   async function logout() {
     await signOut()
     toast('Signed out')
+  }
+
+  // two-tap confirm for the data actions (destructive)
+  function arm(action) {
+    setConfirming(action)
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => setConfirming(null), 3000)
+  }
+  function onLoad() {
+    if (confirming !== 'load') return arm('load')
+    setConfirming(null)
+    loadDemoData()
+    toast('Demo data loaded ✓', 'success')
+  }
+  function onReset() {
+    if (confirming !== 'reset') return arm('reset')
+    setConfirming(null)
+    resetAll()
+    setPreview(false)
+    toast('All data cleared')
+  }
+  function togglePreview() {
+    const next = !preview
+    setDemoLoggedIn(next)
+    setPreview(next)
+    toast(next ? 'Preview: signed in' : 'Preview: signed out')
   }
 
   return (
@@ -93,6 +123,25 @@ export default function Profile() {
         </button>
       )}
       {!configured && <p className="text-center text-[11px] text-muted2">Add Supabase keys to <code>.env</code> to enable Google login &amp; sync.</p>}
+
+      {/* data tools */}
+      <div className="card p-5">
+        <div className="mb-1 text-[15px] font-semibold text-ink">Data</div>
+        <p className="mb-3 text-[12px] text-muted2">Fill the app with a sample dataset to explore it, or clear everything to start fresh.</p>
+        <div className="flex flex-col gap-2.5">
+          <button onClick={onLoad} className="rounded-[10px] bg-accent-soft py-3 text-[14px] font-semibold text-accent">
+            {confirming === 'load' ? 'Tap again — this replaces your data' : 'Load demo data'}
+          </button>
+          <button onClick={onReset} className="rounded-[10px] border border-[#E7C9C2] bg-[#FFF3F0] py-3 text-[14px] font-semibold text-[#C9452C]">
+            {confirming === 'reset' ? 'Tap again — erases everything' : 'Reset all data'}
+          </button>
+          {import.meta.env.DEV && (
+            <button onClick={togglePreview} className="mt-1 rounded-[10px] bg-soft py-2.5 text-[13px] font-semibold text-text">
+              {preview ? '● Signed-in preview: on (dev)' : '○ Signed-in preview: off (dev)'}
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
